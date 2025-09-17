@@ -1,0 +1,82 @@
+# CC-Scrum Framework .gitignore
+
+# Logs
+*.log
+logs/
+.claude/logs/
+cc-scrum-install.log
+
+# Runtime data
+pids/
+.claude/pids/
+*.pid
+*.seed
+
+# Coverage directory used by tools like istanbul
+coverage/
+.coverage
+htmlcov/
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Rust
+target/
+Cargo.lock
+
+# Go
+vendor/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+.temp/
+.tmp/
+
+# Test outputs
+test-results/
+junit.xml
+
+# Generated documentation
+docs/_build/
+
+# CC-Scrum specific
+.claude/data/tool_context.json
+.claude/data/user_engagement.json
+cc-scrum-test/
+
+# Keep template and example files but ignore generated instances
+BACKLOG.md
+DOD.md
+SPRINT.md
+
+# But keep the templates
+!.claude/templates/

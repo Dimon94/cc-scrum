@@ -1,0 +1,289 @@
+# Sprint Dashboard - {{PROJECT_NAME}}
+
+## Sprint Overview
+
+### Sprint #001: Project Setup
+**Start Date**: {{SPRINT_START_DATE}}
+**End Date**: {{SPRINT_END_DATE}} ({{SPRINT_DURATION}} weeks)
+**Sprint Goal**: Set up {{PROJECT_NAME}} with CC-Scrum framework and establish {{PROJECT_TYPE}} development workflow
+
+### Team Capacity
+- **Development**: 5 days/week
+- **Quality Assurance**: 3 days/week
+- **Architecture Review**: 1 day/week
+{{#if_security_enabled}}
+- **Security Review**: 1 day/week
+{{/if_security_enabled}}
+
+---
+
+## Sprint Backlog
+
+### 🎯 Sprint Goal Tasks
+
+#### Task Tree: Story #001 - Project Foundation
+
+**A1. CC-Scrum Framework Setup** (Priority: 1)
+- **Assignee**: @dev
+- **Estimate**: 4 hours
+- **Status**: Completed
+- **Dependencies**: None
+- **Subtasks**:
+  - [x] Run CC-Scrum installer
+  - [x] Configure agents: {{ENABLED_AGENTS}}
+  - [x] Set up quality gates ({{COVERAGE_THRESHOLD}}% coverage)
+  - [x] Enable background monitoring
+
+**A2. {{PROJECT_TYPE}} Development Setup** (Priority: 2)
+- **Assignee**: @arch + @dev
+- **Estimate**: 6 hours
+- **Status**: Ready
+- **Dependencies**: A1
+- **Subtasks**:
+{{#if_nodejs}}
+  - [ ] Configure npm scripts for development workflow
+  - [ ] Set up ESLint, Prettier, and TypeScript configuration
+  - [ ] Configure build system and bundling
+  - [ ] Set up development server with hot reload
+{{/if_nodejs}}
+{{#if_python}}
+  - [ ] Set up virtual environment and dependencies
+  - [ ] Configure linting with flake8/pylint
+  - [ ] Set up testing framework (pytest)
+  - [ ] Configure development tools and IDE integration
+{{/if_python}}
+{{#if_rust}}
+  - [ ] Configure Cargo workspace and dependencies
+  - [ ] Set up clippy and rustfmt configuration
+  - [ ] Configure testing and benchmark framework
+  - [ ] Set up development tools and IDE integration
+{{/if_rust}}
+{{#if_go}}
+  - [ ] Configure Go modules and dependencies
+  - [ ] Set up linting with golint and go vet
+  - [ ] Configure testing framework
+  - [ ] Set up development tools and IDE integration
+{{/if_go}}
+
+**A3. Quality Gates Configuration** (Priority: 3)
+- **Assignee**: @qa{{#if_security_enabled}} + @sec{{/if_security_enabled}}
+- **Estimate**: 4 hours
+- **Status**: Ready
+- **Dependencies**: A2
+- **Subtasks**:
+  - [ ] Configure automated testing pipeline
+  - [ ] Set up code coverage reporting ({{COVERAGE_THRESHOLD}}% target)
+  - [ ] Implement DoD automation checks
+{{#if_security_enabled}}
+  - [ ] Configure security scanning integration
+  - [ ] Set up dependency vulnerability monitoring
+{{/if_security_enabled}}
+
+**A4. Team Onboarding & Documentation** (Priority: 4)
+- **Assignee**: @sm + @po
+- **Estimate**: 4 hours
+- **Status**: Ready
+- **Dependencies**: A3
+- **Subtasks**:
+  - [ ] Create project-specific development guide
+  - [ ] Document agent usage patterns for {{PROJECT_TYPE}}
+  - [ ] Set up first sprint planning session
+  - [ ] Validate complete workflow end-to-end
+
+---
+
+## Sprint Burndown
+
+### Story Points Progress
+- **Total Story Points**: 8
+- **Completed**: 2 (Framework setup)
+- **Remaining**: 6
+
+### Daily Progress Tracking
+| Date | Completed Hours | Remaining Hours | Notes |
+|------|----------------|------------------|--------|
+| {{SPRINT_START_DATE}} | 2 | 16 | CC-Scrum framework installed |
+| {{TODAY_PLUS_1}} | - | - | *To be updated by @sm* |
+
+### Burndown Chart
+```
+Story Points Remaining
+8 ┤●
+7 ┤
+6 ┤
+5 ┤
+4 ┤
+3 ┤
+2 ┤
+1 ┤
+0 └────────────────────────────────────
+  Day 1  3  5  7  9  11 13 (Sprint Days)
+```
+
+---
+
+## Daily Standup Notes
+
+### {{TODAY}} (Sprint Day 1)
+**Yesterday**: Project initialization, CC-Scrum installation
+**Today**: Configure {{PROJECT_TYPE}} development environment, set up quality gates
+**Blockers**: None
+**Risks**: None identified
+
+### Risk Register
+| Risk | Probability | Impact | Mitigation | Owner |
+|------|-------------|--------|------------|-------|
+| {{PROJECT_TYPE}} tooling compatibility | Low | Medium | Test with current project structure | @dev |
+| Team adoption curve | Medium | Low | Provide comprehensive documentation | @sm |
+{{#if_security_enabled}}
+| Security tool integration | Low | High | Start with basic scans, enhance gradually | @sec |
+{{/if_security_enabled}}
+
+---
+
+## Background Execution Queue
+
+### Running Background Tasks
+{{#if_background_monitoring}}
+{{#if_nodejs}}
+- [ ] npm run dev (development server)
+- [ ] npm run test:watch (continuous testing)
+- [ ] npm run typecheck:watch (TypeScript monitoring)
+{{/if_nodejs}}
+{{#if_python}}
+- [ ] Development server monitoring
+- [ ] Continuous test execution
+- [ ] Code quality monitoring
+{{/if_python}}
+{{#if_rust}}
+- [ ] cargo watch (continuous compilation)
+- [ ] Test suite monitoring
+- [ ] Clippy continuous linting
+{{/if_rust}}
+{{#if_go}}
+- [ ] Go application monitoring
+- [ ] Test suite continuous execution
+- [ ] Code quality monitoring
+{{/if_go}}
+{{/if_background_monitoring}}
+
+### Completed Background Tasks
+- [x] CC-Scrum framework installation
+- [x] Initial configuration generation
+- [x] Project type detection and setup
+
+---
+
+## Sprint Review Preparation
+
+### Demo Script
+1. **Agent Showcase**: Demonstrate @po, @sm, @arch, @dev, @qa{{#if_security_enabled}}, @sec{{/if_security_enabled}} capabilities
+2. **Quality Gates**: Show `/review` command with DoD validation
+3. **Task Management**: Execute `/meta-todo` for intelligent task breakdown
+{{#if_background_monitoring}}
+4. **Monitoring**: Display background process health dashboard
+{{/if_background_monitoring}}
+{{#if_nodejs}}
+5. **Development Workflow**: Show hot reload, testing, and build process
+{{/if_nodejs}}
+{{#if_python}}
+5. **Development Workflow**: Show testing, linting, and package management
+{{/if_python}}
+{{#if_rust}}
+5. **Development Workflow**: Show compilation, testing, and cargo integration
+{{/if_rust}}
+{{#if_go}}
+5. **Development Workflow**: Show building, testing, and go tooling
+{{/if_go}}
+
+### Retrospective Topics for Next Sprint
+- Agent response effectiveness for {{PROJECT_TYPE}} development
+- Quality gate integration with existing {{PROJECT_TYPE}} toolchain
+{{#if_background_monitoring}}
+- Background monitoring reliability and resource usage
+{{/if_background_monitoring}}
+- Team productivity impact and adoption feedback
+- Documentation completeness and clarity
+
+---
+
+## {{PROJECT_TYPE}} Specific Metrics
+
+### Development Metrics
+{{#if_nodejs}}
+- **Build Time**: Target <2 minutes for full build
+- **Bundle Size**: Keep under 250KB gzipped
+- **Test Execution**: Target <30 seconds for unit tests
+- **Hot Reload**: <5 seconds for changes to reflect
+{{/if_nodejs}}
+{{#if_python}}
+- **Test Execution**: Target <60 seconds for full test suite
+- **Import Time**: Keep module imports under 100ms
+- **Code Quality**: Maintain flake8 score >8.5
+- **Coverage**: Maintain {{COVERAGE_THRESHOLD}}%+ test coverage
+{{/if_python}}
+{{#if_rust}}
+- **Compilation Time**: Target <5 minutes for full build
+- **Binary Size**: Keep release binaries under 20MB
+- **Test Execution**: Target <2 minutes for full test suite
+- **Benchmark Stability**: <5% variance in performance tests
+{{/if_rust}}
+{{#if_go}}
+- **Build Time**: Target <2 minutes for full build
+- **Binary Size**: Keep binaries under 50MB
+- **Test Execution**: Target <1 minute for full test suite
+- **Memory Usage**: Target <200MB for typical workloads
+{{/if_go}}
+
+### Quality Targets
+- **Code Coverage**: ≥{{COVERAGE_THRESHOLD}}% statement coverage
+- **Documentation**: 100% public API documented
+{{#if_security_enabled}}
+- **Security**: Zero high/critical vulnerabilities
+{{/if_security_enabled}}
+- **Performance**: Meet {{PROJECT_TYPE}} specific benchmarks
+
+---
+
+## Meta Information
+
+### Sprint Velocity Prediction
+- **Baseline Estimate**: 6-8 story points/sprint
+- **Confidence Level**: Medium (new framework, familiar {{PROJECT_TYPE}})
+- **Adjustment Factors**: {{PROJECT_TYPE}} expertise, team size, learning curve
+
+### Technology Stack
+- **Project Type**: {{PROJECT_TYPE}}
+- **Coverage Target**: {{COVERAGE_THRESHOLD}}%
+{{#if_security_enabled}}
+- **Security Scanning**: Enabled
+{{/if_security_enabled}}
+{{#if_background_monitoring}}
+- **Background Monitoring**: Enabled
+{{/if_background_monitoring}}
+- **Agents**: {{ENABLED_AGENTS}}
+- **Framework Version**: {{FRAMEWORK_VERSION}}
+
+### Context & Decisions
+- **Architecture**: Agent-based development with {{PROJECT_TYPE}} optimization
+- **Quality Strategy**: Automated gates with {{COVERAGE_THRESHOLD}}% coverage minimum
+- **Process**: {{SPRINT_DURATION}}-week sprints with daily automated updates
+{{#if_nodejs}}
+- **Technology Choices**: Node.js ecosystem with TypeScript emphasis
+{{/if_nodejs}}
+{{#if_python}}
+- **Technology Choices**: Python ecosystem with modern tooling
+{{/if_python}}
+{{#if_rust}}
+- **Technology Choices**: Rust ecosystem with performance focus
+{{/if_rust}}
+{{#if_go}}
+- **Technology Choices**: Go ecosystem with simplicity and performance
+{{/if_go}}
+
+---
+
+*Generated by CC-Scrum framework for {{PROJECT_NAME}} ({{PROJECT_TYPE}})*
+*Sprint Duration: {{SPRINT_DURATION}} weeks | Agents: {{ENABLED_AGENTS}}*
+*Last Updated: {{GENERATION_DATE}} by @sm (automated)*
+*Next Update: Daily by background process*

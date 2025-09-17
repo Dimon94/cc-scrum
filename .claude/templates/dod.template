@@ -1,0 +1,352 @@
+# Definition of Done (DoD) - {{PROJECT_NAME}}
+
+## Code Quality Gates
+
+### 🧪 Testing Requirements
+- [ ] **Unit Tests**: New code has ≥{{COVERAGE_THRESHOLD}}% statement coverage
+{{#if_nodejs}}
+- [ ] **Integration Tests**: API endpoints tested with realistic data
+- [ ] **E2E Tests**: Critical user journeys automated
+{{/if_nodejs}}
+{{#if_python}}
+- [ ] **Integration Tests**: Module interfaces tested with pytest
+- [ ] **Functional Tests**: User scenarios validated
+{{/if_python}}
+{{#if_rust}}
+- [ ] **Integration Tests**: Crate interfaces tested
+- [ ] **Benchmark Tests**: Performance regressions prevented
+{{/if_rust}}
+{{#if_go}}
+- [ ] **Integration Tests**: Package interfaces tested
+- [ ] **Table Tests**: Edge cases covered comprehensively
+{{/if_go}}
+- [ ] **Edge Cases**: Boundary conditions and error scenarios covered
+- [ ] **Manual Testing**: @qa has verified all acceptance criteria
+
+### 🔒 Security Requirements
+{{#if_security_enabled}}
+- [ ] **Security Scan**: @sec has reviewed for OWASP Top 10 vulnerabilities
+- [ ] **Dependency Scan**: No known high/critical vulnerabilities in dependencies
+- [ ] **SAST Analysis**: Static analysis security testing completed
+- [ ] **Authentication**: Proper auth/authz implementation verified
+{{/if_security_enabled}}
+- [ ] **Input Validation**: All user inputs sanitized and validated
+- [ ] **Secrets**: No hardcoded secrets, proper secret management used
+- [ ] **Data Protection**: Sensitive data encrypted in transit and at rest
+
+### 🏗️ Code Standards
+{{#if_nodejs}}
+- [ ] **Linting**: `npm run lint` passes without errors
+- [ ] **Type Checking**: `npm run typecheck` passes without errors
+- [ ] **Formatting**: Prettier formatting applied consistently
+- [ ] **Build**: `npm run build` succeeds without warnings
+- [ ] **Dependencies**: Package vulnerabilities audited with `npm audit`
+{{/if_nodejs}}
+{{#if_python}}
+- [ ] **Linting**: `flake8` or `pylint` passes without errors
+- [ ] **Type Checking**: `mypy` passes without errors (if applicable)
+- [ ] **Formatting**: Code follows PEP 8 style guide with `black`
+- [ ] **Build**: Package builds successfully with setup tools
+- [ ] **Dependencies**: Requirements checked for vulnerabilities
+{{/if_python}}
+{{#if_rust}}
+- [ ] **Linting**: `cargo clippy` passes without warnings
+- [ ] **Formatting**: `cargo fmt` applied and verified
+- [ ] **Build**: `cargo build` succeeds without warnings
+- [ ] **Documentation**: `cargo doc` generates complete docs
+- [ ] **Dependencies**: `cargo audit` shows no vulnerabilities
+{{/if_rust}}
+{{#if_go}}
+- [ ] **Linting**: `golint` and `go vet` pass without issues
+- [ ] **Formatting**: `go fmt` applied consistently
+- [ ] **Build**: `go build` succeeds without errors
+- [ ] **Modules**: `go mod tidy` applied and verified
+- [ ] **Security**: `gosec` security scanner passes
+{{/if_go}}
+- [ ] **Code Review**: At least one peer review completed via `/review`
+
+### 📚 Documentation
+- [ ] **README**: Updated if public interface changed
+{{#if_nodejs}}
+- [ ] **API Docs**: JSDoc or OpenAPI documentation updated
+- [ ] **TypeScript**: Type definitions accurate and complete
+{{/if_nodejs}}
+{{#if_python}}
+- [ ] **Docstrings**: All functions and classes documented
+- [ ] **API Docs**: Sphinx or similar documentation updated
+{{/if_python}}
+{{#if_rust}}
+- [ ] **Doc Comments**: All public items documented with ///
+- [ ] **Examples**: Usage examples in documentation
+{{/if_rust}}
+{{#if_go}}
+- [ ] **GoDoc**: All exported functions documented
+- [ ] **Examples**: Example functions provided where appropriate
+{{/if_go}}
+- [ ] **Comments**: Complex logic explained with inline comments
+- [ ] **CHANGELOG**: User-facing changes documented
+
+### 🚀 Deployment Readiness
+{{#if_nodejs}}
+- [ ] **Build**: Production build optimized and tested
+- [ ] **Environment**: Environment variables properly configured
+- [ ] **Health Checks**: `/health` endpoint responds correctly
+- [ ] **Performance**: Bundle size within acceptable limits
+{{/if_nodejs}}
+{{#if_python}}
+- [ ] **Dependencies**: requirements.txt or pyproject.toml updated
+- [ ] **Environment**: Virtual environment reproducible
+- [ ] **WSGI/ASGI**: Application server configuration verified
+- [ ] **Health Checks**: Application health endpoints working
+{{/if_python}}
+{{#if_rust}}
+- [ ] **Release Build**: Optimized release binary tested
+- [ ] **Dependencies**: Cargo.lock committed and verified
+- [ ] **Configuration**: Runtime configuration externalized
+- [ ] **Health Checks**: Service health monitoring configured
+{{/if_rust}}
+{{#if_go}}
+- [ ] **Binary**: Statically linked binary tested
+- [ ] **Dependencies**: go.sum file committed and verified
+- [ ] **Configuration**: Environment-based configuration
+- [ ] **Health Checks**: Health check endpoints implemented
+{{/if_go}}
+- [ ] **Rollback Plan**: Documented procedure for reverting changes
+
+## Agent-Specific DoD
+
+### @dev Developer Checklist
+- [ ] Implementation follows architecture guidelines from @arch
+{{#if_nodejs}}
+- [ ] TypeScript types are accurate and comprehensive
+- [ ] React components follow established patterns
+- [ ] State management properly implemented
+{{/if_nodejs}}
+{{#if_python}}
+- [ ] Type hints provided for function signatures
+- [ ] Error handling follows project conventions
+- [ ] Database models and migrations proper
+{{/if_python}}
+{{#if_rust}}
+- [ ] Memory safety and ownership properly handled
+- [ ] Error handling uses Result types consistently
+- [ ] Performance characteristics documented
+{{/if_rust}}
+{{#if_go}}
+- [ ] Goroutines and channels used appropriately
+- [ ] Error handling follows Go conventions
+- [ ] Context cancellation properly implemented
+{{/if_go}}
+- [ ] REPL validation performed for complex algorithms
+- [ ] Performance impact assessed with realistic data volumes
+
+### @qa Quality Assurance Checklist
+- [ ] Test coverage meets or exceeds {{COVERAGE_THRESHOLD}}% threshold
+- [ ] Accessibility standards verified (WCAG 2.1 AA where applicable)
+{{#if_nodejs}}
+- [ ] Cross-browser compatibility checked
+- [ ] Mobile responsiveness validated
+- [ ] Performance metrics within targets
+{{/if_nodejs}}
+{{#if_python}}
+- [ ] Multiple Python version compatibility verified
+- [ ] Database migration rollback tested
+- [ ] API contract validation completed
+{{/if_python}}
+{{#if_rust}}
+- [ ] Multiple target platform compilation verified
+- [ ] Memory usage profiling completed
+- [ ] Benchmark regression testing passed
+{{/if_rust}}
+{{#if_go}}
+- [ ] Multiple Go version compatibility verified
+- [ ] Concurrent access testing completed
+- [ ] Memory leak testing passed
+{{/if_go}}
+- [ ] Load testing performed for performance-critical features
+
+{{#if_security_enabled}}
+### @sec Security Checklist
+- [ ] OWASP Top 10 vulnerabilities checked and mitigated
+- [ ] Authentication/authorization properly implemented
+- [ ] Data encryption in transit and at rest where required
+- [ ] Security headers configured correctly
+{{#if_nodejs}}
+- [ ] Helmet.js or similar security middleware configured
+- [ ] CSRF protection implemented
+- [ ] XSS prevention measures in place
+{{/if_nodejs}}
+{{#if_python}}
+- [ ] SQL injection prevention validated
+- [ ] Security middleware properly configured
+- [ ] Sensitive data handling reviewed
+{{/if_python}}
+{{#if_rust}}
+- [ ] Memory safety vulnerabilities eliminated
+- [ ] Unsafe code blocks reviewed and justified
+- [ ] Dependency security audit passed
+{{/if_rust}}
+{{#if_go}}
+- [ ] Input validation and sanitization implemented
+- [ ] Secure coding practices followed
+- [ ] Vulnerability scanning completed
+{{/if_go}}
+- [ ] Security testing performed on new attack vectors
+{{/if_security_enabled}}
+
+### @arch Architecture Checklist
+- [ ] Design patterns consistently applied
+- [ ] Performance characteristics documented and acceptable
+- [ ] Scalability considerations addressed
+{{#if_nodejs}}
+- [ ] Component architecture follows established patterns
+- [ ] API design follows RESTful principles
+- [ ] State management architecture optimal
+{{/if_nodejs}}
+{{#if_python}}
+- [ ] Module structure follows project conventions
+- [ ] Database schema changes properly versioned
+- [ ] Service layer architecture maintained
+{{/if_python}}
+{{#if_rust}}
+- [ ] Module structure and visibility appropriate
+- [ ] Trait design follows Rust idioms
+- [ ] Performance critical paths optimized
+{{/if_rust}}
+{{#if_go}}
+- [ ] Package structure follows Go conventions
+- [ ] Interface design follows Go idioms
+- [ ] Concurrency patterns appropriate
+{{/if_go}}
+- [ ] Technical debt implications documented
+
+## Automated Checks
+
+### Pre-Merge Gates (Automated)
+```bash
+{{#if_nodejs}}
+npm run lint
+npm run typecheck
+npm run test:coverage
+npm run build
+npm audit --audit-level=high
+{{/if_nodejs}}
+{{#if_python}}
+flake8 .
+mypy . || echo "Type checking optional"
+pytest --cov={{PROJECT_NAME}} --cov-report=term-missing
+pip-audit || echo "Security audit optional"
+{{/if_python}}
+{{#if_rust}}
+cargo clippy
+cargo test
+cargo build --release
+cargo audit
+{{/if_rust}}
+{{#if_go}}
+go vet ./...
+go test ./...
+go build ./...
+gosec ./... || echo "Security scan optional"
+{{/if_go}}
+```
+
+### Background Monitors (Continuous)
+```bash
+{{#if_nodejs}}
+npm run dev &
+npm run test:watch &
+npm run typecheck:watch &
+{{/if_nodejs}}
+{{#if_python}}
+python -m watchdog autotest
+pytest --looponfail &
+{{/if_python}}
+{{#if_rust}}
+cargo watch -x 'test'
+cargo watch -x 'clippy'
+{{/if_rust}}
+{{#if_go}}
+go run github.com/cosmtrek/air &
+go test ./... -watch &
+{{/if_go}}
+```
+
+## Quality Metrics Targets
+
+### Performance
+{{#if_nodejs}}
+- **Page Load**: <3 seconds for 95th percentile
+- **Bundle Size**: <250KB gzipped for critical path
+- **API Response**: <500ms for 95th percentile
+{{/if_nodejs}}
+{{#if_python}}
+- **API Response**: <500ms for 95th percentile
+- **Memory Usage**: <512MB for typical workloads
+- **Database Query**: <100ms for 95th percentile
+{{/if_python}}
+{{#if_rust}}
+- **Binary Size**: <20MB for release builds
+- **Memory Usage**: <100MB for typical workloads
+- **Startup Time**: <1 second for service initialization
+{{/if_rust}}
+{{#if_go}}
+- **Binary Size**: <50MB for statically linked binaries
+- **Memory Usage**: <200MB for typical workloads
+- **API Response**: <100ms for 95th percentile
+{{/if_go}}
+
+### Reliability
+- **Uptime**: >99.9% availability target
+- **Error Rate**: <0.1% error rate in production
+- **Recovery Time**: <5 minutes for critical issues
+- **Test Success Rate**: >99% in CI/CD pipeline
+
+{{#if_security_enabled}}
+### Security
+- **Vulnerability SLA**: High/Critical fixes within 24 hours
+- **Dependency Updates**: Monthly security patch reviews
+- **Access Reviews**: Quarterly permission audits
+- **Security Scan**: Weekly automated vulnerability scans
+{{/if_security_enabled}}
+
+## Exceptions & Escalation
+
+### Acceptable DoD Bypasses
+- **Hotfixes**: Critical production issues may bypass non-security checks
+- **Experimental Features**: Behind feature flags may have relaxed coverage requirements
+- **Documentation**: Typo fixes don't require full test suite
+{{#if_nodejs}}
+- **Dependencies**: Major version updates may have temporary type issues
+{{/if_nodejs}}
+{{#if_python}}
+- **Migration**: Database schema changes may have temporary test adjustments
+{{/if_python}}
+
+### Escalation Process
+1. **Team Level**: Discuss with Scrum Master (@sm) if DoD cannot be met
+2. **Technical**: Consult @arch for architecture exceptions
+3. **Business**: Involve @po for business requirement changes
+{{#if_security_enabled}}
+4. **Security**: @sec must approve any security-related exceptions
+{{/if_security_enabled}}
+
+## Continuous Improvement
+
+### Sprint Retrospective Questions
+- Which DoD items caused the most friction?
+- What quality issues escaped to production?
+- How can we automate more quality checks?
+- Are our coverage/performance targets appropriate for {{PROJECT_TYPE}}?
+
+### DoD Evolution
+- DoD is reviewed and updated each Sprint during retrospective
+- New patterns and best practices incorporated into standards
+- Successful automation becomes mandatory gates
+- Team consensus required for any DoD relaxation
+
+---
+
+*Generated by CC-Scrum framework for {{PROJECT_NAME}} ({{PROJECT_TYPE}})*
+*Coverage Target: {{COVERAGE_THRESHOLD}}% | Security: {{SECURITY_STATUS}}*
+*Last Updated: {{GENERATION_DATE}}*
