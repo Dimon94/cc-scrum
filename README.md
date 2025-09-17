@@ -185,146 +185,151 @@ cc-scrum/
 - Impediment identification
 - Velocity analysis
 
-## 💡 最佳实践
+## 💡 Best Practices
 
-### 1. 用户故事创建
+### 1. User Story Creation
 ```bash
-# 好的实践
-"@po 根据业务需求'提高用户留存率'创建用户故事"
+# Best Practice
+"@po Create user stories based on business requirement 'improve user retention rate'"
 
-# 输出示例：
-# 作为一个新用户，我想要收到个性化的入门指导，
-# 以便我能快速了解产品功能并开始使用。
+# Example Output:
+# As a new user, I want to receive personalized onboarding guidance,
+# so that I can quickly understand product features and start using them.
 #
-# 验收标准：
-# - [ ] 新用户注册后显示欢迎向导
-# - [ ] 向导包含3-5个关键功能介绍
-# - [ ] 用户可以跳过或完成整个向导
-# - [ ] 完成向导的用户留存率提高20%
+# Acceptance Criteria:
+# - [ ] Display welcome wizard after new user registration
+# - [ ] Wizard contains 3-5 key feature introductions
+# - [ ] Users can skip or complete the entire wizard
+# - [ ] User retention rate improves by 20% for those who complete the wizard
 ```
 
-### 2. 智能任务分解
+### 2. Intelligent Task Breakdown
 ```bash
-# 复杂功能的任务分解
-/meta-todo "实现实时聊天功能" --tier=3 --background
+# Complex feature task breakdown
+/meta-todo "Implement real-time chat functionality" --tier=3 --background
 
-# 系统会自动：
-# - 分析需求复杂度 (WebSocket、数据库、UI、安全等)
-# - 生成任务依赖图
-# - 标识可并行执行的任务
-# - 启动背景研究 (最佳实践、性能基准等)
-# - 提供时间估算和风险评估
+# System automatically:
+# - Analyzes requirement complexity (WebSocket, database, UI, security, etc.)
+# - Generates task dependency graph
+# - Identifies tasks that can be executed in parallel
+# - Initiates background research (best practices, performance benchmarks, etc.)
+# - Provides time estimation and risk assessment
 ```
 
-### 3. 质量保证流程
+### 3. Quality Assurance Process
 ```bash
-# 开发前：测试策略
-"@qa 为实时聊天功能制定测试策略，包括单元测试、集成测试和性能测试"
+# Pre-development: Test strategy
+"@qa Develop testing strategy for real-time chat functionality, including unit tests, integration tests, and performance tests"
 
-# 开发中：持续验证
-"@qa 检查当前WebSocket实现的测试覆盖率，补充缺失的边界条件测试"
+# During development: Continuous validation
+"@qa Check test coverage of current WebSocket implementation, supplement missing boundary condition tests"
 
-# 开发后：全面评审
-/review pr  # 包含自动化测试、代码质量、安全检查
+# Post-development: Comprehensive review
+/review pr  # Includes automated testing, code quality, security checks
 ```
 
-### 4. 安全左移实践
+### 4. Security Shift-Left Practices
 ```bash
-# 设计阶段安全考虑
-"@sec 对实时聊天架构进行威胁建模，识别潜在安全风险"
+# Design phase security considerations
+"@sec Perform threat modeling on real-time chat architecture, identify potential security risks"
 
-# 实现阶段安全验证
-"@sec 审查WebSocket实现，检查输入验证、认证和授权机制"
+# Implementation phase security validation
+"@sec Review WebSocket implementation, check input validation, authentication and authorization mechanisms"
 
-# 部署前安全扫描
-"@sec 对聊天功能进行渗透测试，生成安全评估报告"
+# Pre-deployment security scanning
+"@sec Perform penetration testing on chat functionality, generate security assessment report"
 ```
 
-## 🔧 配置和定制
+## 🔧 Configuration and Customization
 
-### 子代理工具权限
-每个子代理都配置了特定的工具权限：
+### Sub-Agent Tool Permissions
+Each sub-agent is configured with specific tool permissions:
 
 ```yaml
-# 示例：开发者代理配置
+# Example: Developer agent configuration
 tools:
-  - Read          # 读取文件
-  - Edit          # 编辑文件
-  - MultiEdit     # 批量编辑
-  - Write         # 创建文件
-  - Bash          # 执行命令
-  - Grep          # 搜索内容
-  - Glob          # 文件模式匹配
-  - WebSearch     # 网络搜索
-  - WebFetch      # 获取网页内容
+  - Read          # Read files
+  - Edit          # Edit files
+  - MultiEdit     # Batch editing
+  - Write         # Create files
+  - Bash          # Execute commands
+  - Grep          # Search content
+  - Glob          # File pattern matching
+  - WebSearch     # Web search
+  - WebFetch      # Fetch web content
 ```
 
-### 质量门控配置
-在 `DOD.md` 中定义完成标准：
+### Quality Gate Configuration
+Define completion criteria in `DOD.md`:
 
 ```markdown
-## 质量要求
-- [ ] 测试覆盖率 ≥80%
-- [ ] 无高/严重级别安全漏洞
-- [ ] 代码规范检查通过
-- [ ] 性能基准测试通过
-- [ ] 文档更新完成
+## Quality Requirements
+- [ ] Test coverage ≥80%
+- [ ] No high/critical security vulnerabilities
+- [ ] Code style checks passed
+- [ ] Performance benchmark tests passed
+- [ ] Documentation updates completed
 ```
 
-### 个性化配置
-在 `CLAUDE.md` 中记录项目特定的模式和约定：
+### Personalized Configuration
+Record project-specific patterns and conventions in `CLAUDE.md`:
 
 ```markdown
-## 成功模式
-- OAuth实现：研究(3h) + 设计(3h) + 实现(8h) + 测试(6h)
-- UI修复：识别(0.5h) + 实现(1h) + 测试(0.5h)
+## Success Patterns
+- OAuth implementation: Research(3h) + Design(3h) + Implementation(8h) + Testing(6h)
+- UI fixes: Identification(0.5h) + Implementation(1h) + Testing(0.5h)
 
-## 技术约定
-- 使用TypeScript严格模式
-- API优先使用RESTful设计
-- 数据库迁移必须可回滚
+## Technical Conventions
+- Use TypeScript strict mode
+- APIs should follow RESTful design principles
+- Database migrations must be rollback-capable
 ```
 
-## 📊 效果监控
+## 📊 Performance Monitoring
 
-### 开发效率指标
-- **任务完成准确率**: 85-95% (相比传统任务分解的60-70%)
-- **时间估算偏差**: ±15% (系统学习后)
-- **代码质量得分**: >90% (多代理审查)
-- **安全漏洞率**: <0.1% (主动安全集成)
+### Development Efficiency Metrics
+- **Task Completion Accuracy**: 85-95% (compared to 60-70% for traditional task breakdown)
+- **Time Estimation Variance**: ±15% (after system learning)
+- **Code Quality Score**: >90% (multi-agent review)
+- **Security Vulnerability Rate**: <0.1% (proactive security integration)
 
-## 🤝 贡献指南
+## 🤝 Contributing
 
-### 扩展子代理
-1. 在 `.claude/agents/` 创建新的 Markdown 文件
-2. 定义代理角色、职责和工具权限
-3. 编写详细的系统提示词
-4. 测试代理功能和集成
+### Extending Sub-Agents
+1. Create new Markdown files in `.claude/agents/`
+2. Define agent roles, responsibilities, and tool permissions
+3. Write detailed system prompts
+4. Test agent functionality and integration
 
-### 添加新命令
-1. 在 `.claude/slash_commands/` 创建命令文件
-2. 使用 YAML frontmatter 定义元数据
-3. 编写命令功能说明和用法示例
-4. 集成到现有工作流中
+### Adding New Commands
+1. Create command files in `.claude/slash_commands/`
+2. Use YAML frontmatter to define metadata
+3. Write command functionality description and usage examples
+4. Integrate into existing workflows
 
-### 改进质量门控
-1. 更新 `DOD.md` 中的质量标准
-2. 在 `/review` 命令中添加新的检查项
-3. 配置自动化验证脚本
-4. 更新 `CLAUDE.md` 中的成功模式
+### Improving Quality Gates
+1. Update quality standards in `DOD.md`
+2. Add new check items to `/review` command
+3. Configure automated validation scripts
+4. Update success patterns in `CLAUDE.md`
 
-## 📜 许可证
+## 📜 License
 
-MIT License - 详见 LICENSE 文件
+MIT License - see LICENSE file for details
 
-## 🙏 致谢
+## 🙏 Acknowledgments
 
-- **Claude Code 团队**: 提供强大的子代理框架
-- **Scrum 社区**: 提供成熟的敏捷开发方法论
-- **开源社区**: 提供丰富的工具和最佳实践
+- **Claude Code Team**: For providing the powerful sub-agent framework
+- **Scrum Community**: For mature agile development methodology
+- **Open Source Community**: For rich tools and best practices
 
 ---
 
-**开始使用**: `"@po 帮我将第一个需求转换为用户故事"`
+**Get Started**: `"@po Help me convert the first requirement into user stories"`
 
-让 AI 驱动的 Scrum 流程提升你的开发效率！ 🚀
+Let AI-driven Scrum processes boost your development efficiency! 🚀
+
+## 📖 Language Support
+
+- [English](./README.md) (This file)
+- [中文](./README-zh.md) (Chinese)
