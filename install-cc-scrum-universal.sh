@@ -38,14 +38,20 @@ DATE_ADD_DAYS=""
 
 # Configuration
 # Handle BASH_SOURCE[0] being unbound when script is piped (curl | bash)
+PIPED_EXECUTION=false
 if [[ -n "${BASH_SOURCE[0]:-}" ]]; then
     SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    FRAMEWORK_DIR="$SCRIPT_DIR/.claude"
 else
     # Fallback: assume script is in current directory or use a reasonable default
     SCRIPT_DIR="$(pwd)"
+    PIPED_EXECUTION=true
+    # For piped execution, use a temporary directory for framework files
+    TEMP_FRAMEWORK_DIR="$(mktemp -d)"
+    FRAMEWORK_DIR="$TEMP_FRAMEWORK_DIR/cc-scrum-framework"
+    trap 'rm -rf "$TEMP_FRAMEWORK_DIR"' EXIT
     echo "⚠️ Script executed via pipe - using current directory as SCRIPT_DIR"
 fi
-FRAMEWORK_DIR="$SCRIPT_DIR/.claude"
 TARGET_DIR="$(pwd)"
 INSTALL_LOG="$TARGET_DIR/cc-scrum-install.log"
 
@@ -307,13 +313,9 @@ check_prerequisites() {
 
     # Check if source framework exists or download it
     if [[ ! -d "$FRAMEWORK_DIR" ]]; then
-        # If BASH_SOURCE[0] is not available (pipe execution), download from GitHub
-        if [[ -z "${BASH_SOURCE[0]:-}" ]]; then
+        # If this is pipe execution, download from GitHub
+        if [[ "$PIPED_EXECUTION" == "true" ]]; then
             print_step "Downloading CC-Scrum framework from GitHub..."
-
-            # Create temporary directory for download
-            TEMP_DIR="$(mktemp -d)"
-            trap 'rm -rf "$TEMP_DIR"' EXIT
 
             # Download framework files from GitHub
             GITHUB_RAW_URL="https://raw.githubusercontent.com/Dimon94/cc-scrum/main"
