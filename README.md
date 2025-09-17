@@ -74,6 +74,22 @@ The universal installer will:
 3. 📋 **Generate documentation** using cross-platform templates
 4. 🚀 **Set up monitoring** with platform-specific tool integration
 
+### Use npx to fetch/update `.claude` only (subdirectory pull)
+
+Fetch the latest `.claude` framework folder into your current project root without cloning the whole repo:
+
+```bash
+npx tiged Dimon94/cc-scrum/.claude .claude
+```
+
+Overwrite update (recommended when upgrading):
+
+```bash
+rm -rf .claude && npx tiged Dimon94/cc-scrum/.claude .claude
+```
+
+Note: `tiged` supports GitHub subdirectory downloads (git-less). It includes the Local-first templates and `context/manifest.yml`.
+
 ## 🛠️ Cross-Platform Project Support
 
 | Technology | macOS | Linux | Windows | Build Tools | Quality Gates |
