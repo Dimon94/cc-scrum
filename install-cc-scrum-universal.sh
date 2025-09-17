@@ -331,19 +331,40 @@ check_prerequisites() {
                 mkdir -p "$FRAMEWORK_DIR/agents"
                 mkdir -p "$FRAMEWORK_DIR/hooks"
                 mkdir -p "$FRAMEWORK_DIR/templates"
+                mkdir -p "$FRAMEWORK_DIR/commands"
+                mkdir -p "$FRAMEWORK_DIR/scripts"
 
                 # Download main configuration files
                 curl -fsSL "$GITHUB_RAW_URL/.claude/settings.json" -o "$FRAMEWORK_DIR/settings.json" 2>/dev/null || echo "{}" > "$FRAMEWORK_DIR/settings.json"
+                curl -fsSL "$GITHUB_RAW_URL/.claude/settings.local.json" -o "$FRAMEWORK_DIR/settings.local.json" 2>/dev/null || echo "{}" > "$FRAMEWORK_DIR/settings.local.json"
                 curl -fsSL "$GITHUB_RAW_URL/.claude/CLAUDE.md" -o "$FRAMEWORK_DIR/CLAUDE.md" 2>/dev/null || touch "$FRAMEWORK_DIR/CLAUDE.md"
+                curl -fsSL "$GITHUB_RAW_URL/.claude/FRAMEWORK_SUMMARY.md" -o "$FRAMEWORK_DIR/FRAMEWORK_SUMMARY.md" 2>/dev/null || touch "$FRAMEWORK_DIR/FRAMEWORK_SUMMARY.md"
 
                 # Download agent files
                 for agent in po sm arch dev qa sec; do
                     curl -fsSL "$GITHUB_RAW_URL/.claude/agents/$agent.md" -o "$FRAMEWORK_DIR/agents/$agent.md" 2>/dev/null || touch "$FRAMEWORK_DIR/agents/$agent.md"
                 done
 
+                # Download command files
+                for command in agents-status meta-todo review standup; do
+                    curl -fsSL "$GITHUB_RAW_URL/.claude/commands/$command.md" -o "$FRAMEWORK_DIR/commands/$command.md" 2>/dev/null || touch "$FRAMEWORK_DIR/commands/$command.md"
+                done
+
                 # Download hook files
                 curl -fsSL "$GITHUB_RAW_URL/.claude/hooks/user_prompt_submit.sh" -o "$FRAMEWORK_DIR/hooks/user_prompt_submit.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/hooks/user_prompt_submit.sh"
+                curl -fsSL "$GITHUB_RAW_URL/.claude/hooks/post_tool_use.sh" -o "$FRAMEWORK_DIR/hooks/post_tool_use.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/hooks/post_tool_use.sh"
+                curl -fsSL "$GITHUB_RAW_URL/.claude/hooks/pre_tool_use.sh" -o "$FRAMEWORK_DIR/hooks/pre_tool_use.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/hooks/pre_tool_use.sh"
                 curl -fsSL "$GITHUB_RAW_URL/.claude/hooks/README.md" -o "$FRAMEWORK_DIR/hooks/README.md" 2>/dev/null || touch "$FRAMEWORK_DIR/hooks/README.md"
+
+                # Download script files
+                curl -fsSL "$GITHUB_RAW_URL/.claude/scripts/background-monitor.sh" -o "$FRAMEWORK_DIR/scripts/background-monitor.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/scripts/background-monitor.sh"
+                curl -fsSL "$GITHUB_RAW_URL/.claude/scripts/quality-gate-check.sh" -o "$FRAMEWORK_DIR/scripts/quality-gate-check.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/scripts/quality-gate-check.sh"
+                curl -fsSL "$GITHUB_RAW_URL/.claude/scripts/quality-gate-check-universal.sh" -o "$FRAMEWORK_DIR/scripts/quality-gate-check-universal.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/scripts/quality-gate-check-universal.sh"
+
+                # Download template files
+                curl -fsSL "$GITHUB_RAW_URL/.claude/templates/backlog.template" -o "$FRAMEWORK_DIR/templates/backlog.template" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/backlog.template"
+                curl -fsSL "$GITHUB_RAW_URL/.claude/templates/dod.template" -o "$FRAMEWORK_DIR/templates/dod.template" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/dod.template"
+                curl -fsSL "$GITHUB_RAW_URL/.claude/templates/sprint.template" -o "$FRAMEWORK_DIR/templates/sprint.template" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/sprint.template"
             elif command -v wget >/dev/null 2>&1; then
                 print_info "Downloading framework files using wget..."
 
@@ -351,35 +372,79 @@ check_prerequisites() {
                 mkdir -p "$FRAMEWORK_DIR/agents"
                 mkdir -p "$FRAMEWORK_DIR/hooks"
                 mkdir -p "$FRAMEWORK_DIR/templates"
+                mkdir -p "$FRAMEWORK_DIR/commands"
+                mkdir -p "$FRAMEWORK_DIR/scripts"
 
                 # Download main configuration files
                 wget -q "$GITHUB_RAW_URL/.claude/settings.json" -O "$FRAMEWORK_DIR/settings.json" 2>/dev/null || echo "{}" > "$FRAMEWORK_DIR/settings.json"
+                wget -q "$GITHUB_RAW_URL/.claude/settings.local.json" -O "$FRAMEWORK_DIR/settings.local.json" 2>/dev/null || echo "{}" > "$FRAMEWORK_DIR/settings.local.json"
                 wget -q "$GITHUB_RAW_URL/.claude/CLAUDE.md" -O "$FRAMEWORK_DIR/CLAUDE.md" 2>/dev/null || touch "$FRAMEWORK_DIR/CLAUDE.md"
+                wget -q "$GITHUB_RAW_URL/.claude/FRAMEWORK_SUMMARY.md" -O "$FRAMEWORK_DIR/FRAMEWORK_SUMMARY.md" 2>/dev/null || touch "$FRAMEWORK_DIR/FRAMEWORK_SUMMARY.md"
 
                 # Download agent files
                 for agent in po sm arch dev qa sec; do
                     wget -q "$GITHUB_RAW_URL/.claude/agents/$agent.md" -O "$FRAMEWORK_DIR/agents/$agent.md" 2>/dev/null || touch "$FRAMEWORK_DIR/agents/$agent.md"
                 done
 
+                # Download command files
+                for command in agents-status meta-todo review standup; do
+                    wget -q "$GITHUB_RAW_URL/.claude/commands/$command.md" -O "$FRAMEWORK_DIR/commands/$command.md" 2>/dev/null || touch "$FRAMEWORK_DIR/commands/$command.md"
+                done
+
                 # Download hook files
                 wget -q "$GITHUB_RAW_URL/.claude/hooks/user_prompt_submit.sh" -O "$FRAMEWORK_DIR/hooks/user_prompt_submit.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/hooks/user_prompt_submit.sh"
+                wget -q "$GITHUB_RAW_URL/.claude/hooks/post_tool_use.sh" -O "$FRAMEWORK_DIR/hooks/post_tool_use.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/hooks/post_tool_use.sh"
+                wget -q "$GITHUB_RAW_URL/.claude/hooks/pre_tool_use.sh" -O "$FRAMEWORK_DIR/hooks/pre_tool_use.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/hooks/pre_tool_use.sh"
                 wget -q "$GITHUB_RAW_URL/.claude/hooks/README.md" -O "$FRAMEWORK_DIR/hooks/README.md" 2>/dev/null || touch "$FRAMEWORK_DIR/hooks/README.md"
+
+                # Download script files
+                wget -q "$GITHUB_RAW_URL/.claude/scripts/background-monitor.sh" -O "$FRAMEWORK_DIR/scripts/background-monitor.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/scripts/background-monitor.sh"
+                wget -q "$GITHUB_RAW_URL/.claude/scripts/quality-gate-check.sh" -O "$FRAMEWORK_DIR/scripts/quality-gate-check.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/scripts/quality-gate-check.sh"
+                wget -q "$GITHUB_RAW_URL/.claude/scripts/quality-gate-check-universal.sh" -O "$FRAMEWORK_DIR/scripts/quality-gate-check-universal.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/scripts/quality-gate-check-universal.sh"
+
+                # Download template files
+                wget -q "$GITHUB_RAW_URL/.claude/templates/backlog.template" -O "$FRAMEWORK_DIR/templates/backlog.template" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/backlog.template"
+                wget -q "$GITHUB_RAW_URL/.claude/templates/dod.template" -O "$FRAMEWORK_DIR/templates/dod.template" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/dod.template"
+                wget -q "$GITHUB_RAW_URL/.claude/templates/sprint.template" -O "$FRAMEWORK_DIR/templates/sprint.template" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/sprint.template"
             else
                 print_warning "curl or wget not found - creating minimal framework structure"
                 mkdir -p "$FRAMEWORK_DIR/templates"
                 mkdir -p "$FRAMEWORK_DIR/agents"
                 mkdir -p "$FRAMEWORK_DIR/hooks"
+                mkdir -p "$FRAMEWORK_DIR/commands"
+                mkdir -p "$FRAMEWORK_DIR/scripts"
+
+                # Create minimal configuration files
                 echo "{}" > "$FRAMEWORK_DIR/settings.json"
+                echo "{}" > "$FRAMEWORK_DIR/settings.local.json"
                 touch "$FRAMEWORK_DIR/CLAUDE.md"
+                touch "$FRAMEWORK_DIR/FRAMEWORK_SUMMARY.md"
 
                 # Create minimal agent files
                 for agent in po sm arch dev qa sec; do
                     touch "$FRAMEWORK_DIR/agents/$agent.md"
                 done
 
+                # Create minimal command files
+                for command in agents-status meta-todo review standup; do
+                    touch "$FRAMEWORK_DIR/commands/$command.md"
+                done
+
                 # Create minimal hook files
                 touch "$FRAMEWORK_DIR/hooks/user_prompt_submit.sh"
+                touch "$FRAMEWORK_DIR/hooks/post_tool_use.sh"
+                touch "$FRAMEWORK_DIR/hooks/pre_tool_use.sh"
                 touch "$FRAMEWORK_DIR/hooks/README.md"
+
+                # Create minimal script files
+                touch "$FRAMEWORK_DIR/scripts/background-monitor.sh"
+                touch "$FRAMEWORK_DIR/scripts/quality-gate-check.sh"
+                touch "$FRAMEWORK_DIR/scripts/quality-gate-check-universal.sh"
+
+                # Create minimal template files
+                touch "$FRAMEWORK_DIR/templates/backlog.template"
+                touch "$FRAMEWORK_DIR/templates/dod.template"
+                touch "$FRAMEWORK_DIR/templates/sprint.template"
             fi
 
             print_success "Framework downloaded successfully"
@@ -876,10 +941,18 @@ setup_scripts() {
     print_step "Setting up project-specific scripts..."
 
     # Make specific scripts executable (avoid wildcard issues)
-    local template_script="$TARGET_DIR/.claude/scripts/template-generator.sh"
-    if [[ -f "$template_script" ]]; then
-        chmod +x "$template_script"
-    fi
+    local scripts_to_chmod=(
+        "$TARGET_DIR/.claude/scripts/template-generator.sh"
+        "$TARGET_DIR/.claude/scripts/background-monitor.sh"
+        "$TARGET_DIR/.claude/scripts/quality-gate-check.sh"
+        "$TARGET_DIR/.claude/scripts/quality-gate-check-universal.sh"
+    )
+
+    for script in "${scripts_to_chmod[@]}"; do
+        if [[ -f "$script" ]]; then
+            chmod +x "$script"
+        fi
+    done
 
     # Make hook scripts executable if they exist
     if [[ -d "$TARGET_DIR/.claude/hooks" ]]; then
