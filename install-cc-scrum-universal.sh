@@ -59,6 +59,12 @@ UNATTENDED_MODE=false
 DRY_RUN_MODE=false
 VERBOSE_MODE=false
 
+# Detect if script is being piped (stdin is not a terminal)
+if [[ ! -t 0 ]]; then
+    UNATTENDED_MODE=true
+    echo "⚠️ Pipe execution detected - enabling unattended mode"
+fi
+
 # Logging function
 log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$INSTALL_LOG"
@@ -214,7 +220,18 @@ check_prerequisites() {
         print_warning "No package manager configuration found"
         if [[ "$UNATTENDED_MODE" == "false" ]]; then
             echo "This might not be a project directory. Continue anyway? (y/N)"
-            read -r response
+            if [[ -t 0 ]]; then
+                read -r response
+            else
+                # Try to read from terminal directly
+                if [[ -c /dev/tty ]]; then
+                    read -r response < /dev/tty
+                else
+                    # Default to 'yes' for continuing installation
+                    response="y"
+                    echo "⚠️ Cannot read user input in pipe mode - defaulting to 'y' (continue)"
+                fi
+            fi
             if [[ ! "$response" =~ ^[Yy]$ ]]; then
                 exit 1
             fi
@@ -264,7 +281,18 @@ check_prerequisites() {
         print_warning "CC-Scrum framework already exists in this directory"
         if [[ "$UNATTENDED_MODE" == "false" ]]; then
             echo "Do you want to overwrite it? (y/N)"
-            read -r response
+            if [[ -t 0 ]]; then
+                read -r response
+            else
+                # Try to read from terminal directly
+                if [[ -c /dev/tty ]]; then
+                    read -r response < /dev/tty
+                else
+                    # Default to 'no' in pipe execution
+                    response="N"
+                    echo "⚠️ Cannot read user input in pipe mode - defaulting to 'N' (no overwrite)"
+                fi
+            fi
             if [[ "$response" =~ ^[Yy]$ ]]; then
                 rm -rf "$TARGET_DIR/.claude"
                 print_info "Existing framework removed"
