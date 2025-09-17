@@ -819,7 +819,9 @@ process_template() {
 # Generate documentation files
 for template in backlog dod sprint; do
     template_file="$TEMPLATES_DIR/${template}.template"
-    output_file="$PROJECT_ROOT/${template^^}.md"
+    # Convert to uppercase using tr for Bash 3.2 compatibility
+    template_upper=$(echo "$template" | tr '[:lower:]' '[:upper:]')
+    output_file="$PROJECT_ROOT/${template_upper}.md"
 
     if [[ -f "$template_file" ]]; then
         process_template "$template_file" "$output_file"
