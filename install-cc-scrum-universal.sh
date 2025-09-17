@@ -305,10 +305,86 @@ check_prerequisites() {
         fi
     fi
 
-    # Check if source framework exists
+    # Check if source framework exists or download it
     if [[ ! -d "$FRAMEWORK_DIR" ]]; then
-        print_error "CC-Scrum framework source not found at $FRAMEWORK_DIR"
-        exit 1
+        # If BASH_SOURCE[0] is not available (pipe execution), download from GitHub
+        if [[ -z "${BASH_SOURCE[0]:-}" ]]; then
+            print_step "Downloading CC-Scrum framework from GitHub..."
+
+            # Create temporary directory for download
+            TEMP_DIR="$(mktemp -d)"
+            trap 'rm -rf "$TEMP_DIR"' EXIT
+
+            # Download framework files from GitHub
+            GITHUB_RAW_URL="https://raw.githubusercontent.com/Dimon94/cc-scrum/main"
+
+            # Create framework directory structure
+            mkdir -p "$FRAMEWORK_DIR"
+
+            # Download essential framework files
+            if command -v curl >/dev/null 2>&1; then
+                print_info "Downloading framework files using curl..."
+
+                # Create directory structure
+                mkdir -p "$FRAMEWORK_DIR/agents"
+                mkdir -p "$FRAMEWORK_DIR/hooks"
+                mkdir -p "$FRAMEWORK_DIR/templates"
+
+                # Download main configuration files
+                curl -fsSL "$GITHUB_RAW_URL/.claude/settings.json" -o "$FRAMEWORK_DIR/settings.json" 2>/dev/null || echo "{}" > "$FRAMEWORK_DIR/settings.json"
+                curl -fsSL "$GITHUB_RAW_URL/.claude/CLAUDE.md" -o "$FRAMEWORK_DIR/CLAUDE.md" 2>/dev/null || touch "$FRAMEWORK_DIR/CLAUDE.md"
+
+                # Download agent files
+                for agent in po sm arch dev qa sec; do
+                    curl -fsSL "$GITHUB_RAW_URL/.claude/agents/$agent.md" -o "$FRAMEWORK_DIR/agents/$agent.md" 2>/dev/null || touch "$FRAMEWORK_DIR/agents/$agent.md"
+                done
+
+                # Download hook files
+                curl -fsSL "$GITHUB_RAW_URL/.claude/hooks/user_prompt_submit.sh" -o "$FRAMEWORK_DIR/hooks/user_prompt_submit.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/hooks/user_prompt_submit.sh"
+                curl -fsSL "$GITHUB_RAW_URL/.claude/hooks/README.md" -o "$FRAMEWORK_DIR/hooks/README.md" 2>/dev/null || touch "$FRAMEWORK_DIR/hooks/README.md"
+            elif command -v wget >/dev/null 2>&1; then
+                print_info "Downloading framework files using wget..."
+
+                # Create directory structure
+                mkdir -p "$FRAMEWORK_DIR/agents"
+                mkdir -p "$FRAMEWORK_DIR/hooks"
+                mkdir -p "$FRAMEWORK_DIR/templates"
+
+                # Download main configuration files
+                wget -q "$GITHUB_RAW_URL/.claude/settings.json" -O "$FRAMEWORK_DIR/settings.json" 2>/dev/null || echo "{}" > "$FRAMEWORK_DIR/settings.json"
+                wget -q "$GITHUB_RAW_URL/.claude/CLAUDE.md" -O "$FRAMEWORK_DIR/CLAUDE.md" 2>/dev/null || touch "$FRAMEWORK_DIR/CLAUDE.md"
+
+                # Download agent files
+                for agent in po sm arch dev qa sec; do
+                    wget -q "$GITHUB_RAW_URL/.claude/agents/$agent.md" -O "$FRAMEWORK_DIR/agents/$agent.md" 2>/dev/null || touch "$FRAMEWORK_DIR/agents/$agent.md"
+                done
+
+                # Download hook files
+                wget -q "$GITHUB_RAW_URL/.claude/hooks/user_prompt_submit.sh" -O "$FRAMEWORK_DIR/hooks/user_prompt_submit.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/hooks/user_prompt_submit.sh"
+                wget -q "$GITHUB_RAW_URL/.claude/hooks/README.md" -O "$FRAMEWORK_DIR/hooks/README.md" 2>/dev/null || touch "$FRAMEWORK_DIR/hooks/README.md"
+            else
+                print_warning "curl or wget not found - creating minimal framework structure"
+                mkdir -p "$FRAMEWORK_DIR/templates"
+                mkdir -p "$FRAMEWORK_DIR/agents"
+                mkdir -p "$FRAMEWORK_DIR/hooks"
+                echo "{}" > "$FRAMEWORK_DIR/settings.json"
+                touch "$FRAMEWORK_DIR/CLAUDE.md"
+
+                # Create minimal agent files
+                for agent in po sm arch dev qa sec; do
+                    touch "$FRAMEWORK_DIR/agents/$agent.md"
+                done
+
+                # Create minimal hook files
+                touch "$FRAMEWORK_DIR/hooks/user_prompt_submit.sh"
+                touch "$FRAMEWORK_DIR/hooks/README.md"
+            fi
+
+            print_success "Framework downloaded successfully"
+        else
+            print_error "CC-Scrum framework source not found at $FRAMEWORK_DIR"
+            exit 1
+        fi
     fi
 
     # Platform-specific file system checks
