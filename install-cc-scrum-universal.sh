@@ -37,7 +37,14 @@ DATE_ADD_WEEKS=""
 DATE_ADD_DAYS=""
 
 # Configuration
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Handle BASH_SOURCE[0] being unbound when script is piped (curl | bash)
+if [[ -n "${BASH_SOURCE[0]:-}" ]]; then
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+else
+    # Fallback: assume script is in current directory or use a reasonable default
+    SCRIPT_DIR="$(pwd)"
+    echo "⚠️ Script executed via pipe - using current directory as SCRIPT_DIR"
+fi
 FRAMEWORK_DIR="$SCRIPT_DIR/.claude"
 TARGET_DIR="$(pwd)"
 INSTALL_LOG="$TARGET_DIR/cc-scrum-install.log"
@@ -567,7 +574,13 @@ add_days_to_date() {
 }
 
 # Configuration
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Handle BASH_SOURCE[0] being unbound when script is piped (curl | bash)
+if [[ -n "${BASH_SOURCE[0]:-}" ]]; then
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+else
+    # Fallback: assume script is in current directory
+    SCRIPT_DIR="$(pwd)"
+fi
 CLAUDE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 TEMPLATES_DIR="$CLAUDE_DIR/templates"
 PROJECT_ROOT="$(cd "$CLAUDE_DIR/../.." && pwd)"
