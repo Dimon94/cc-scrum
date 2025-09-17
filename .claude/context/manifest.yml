@@ -1,0 +1,68 @@
+version: 1
+
+# Canonical local-only document registry (no remote issues).
+# Agents must read this manifest first to resolve paths.
+
+paths:
+  sprint_root: ".claude/sprint"
+  prd_root: ".claude/prd"
+  epic_root: ".claude/epic"
+  task_root: ".claude/task"
+  templates_root: ".claude/templates"
+  docs_root: ".claude/docs"
+
+conventions:
+  # SPRINTs are folders named by sprint identifier, containing index and logs
+  sprint:
+    index: "SPRINT.md"
+    log: "LOG.md"
+    backlog: "SPRINT_BACKLOG.md"
+    board: "SPRINT_BOARD.md"
+  # PRDs: one folder per PRD key under prd_root
+  prd:
+    index: "PRD.md"
+    decisions: "DECISIONS.md"  # key decisions and ADR links
+  # EPICs: nested under their PRD folder or directly under epic_root
+  epic:
+    index: "EPIC.md"
+    backlog: "BACKLOG.md"
+  # TASKs: flat or under epic folder; file naming is numeric by default
+  task:
+    index: "TASK.md"
+    notes: "NOTES.md"
+
+linking:
+  # File-based cross refs (local-only)
+  # Use relative links between PRD/EPIC/TASK documents
+  enable_relative_links: true
+  id_strategy:
+    # During decomposition use 001.md, 002.md ...
+    default_local_ids: true
+    # Optional rename rule after stabilization (no remote id)
+    rename_on_stable: false
+
+workflows:
+  # Minimal local flow (no remote):
+  - name: "local-planning"
+    steps:
+      - "/pm:init-local"
+      - "/context:create"
+      - "/pm:prd-new <name>"
+      - "/pm:prd-parse <name>"
+      - "/pm:epic-start <name>"
+      - "/pm:task-open <local-id>"
+
+navigation:
+  # Default navigation entry is Sprint. Sprint files link out to EPIC/TASK.
+  default_entry: "sprint"
+  files:
+    - "SPRINT.md"
+    - "SPRINT_BACKLOG.md"
+    - "SPRINT_BOARD.md"
+
+guards:
+  # Enforce file size and single-responsibility
+  max_file_lines: 500
+  require_templates: true
+
+

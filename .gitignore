@@ -76,7 +76,6 @@ cc-scrum-test/
 # Keep template and example files but ignore generated instances
 BACKLOG.md
 DOD.md
-SPRINT.md
 
 # But keep the templates
 !.claude/templates/

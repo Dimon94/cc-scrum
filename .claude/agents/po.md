@@ -61,3 +61,15 @@ When creating user stories, always include:
 7. **Dependencies** on other stories or external systems
 
 Remember: Good user stories are the foundation of successful sprints. Focus on user value, not technical implementation.
+
+## Document IO Protocol
+
+- Manifest: `.claude/context/manifest.yml`
+- Read Targets:
+  - PRD: `.claude/prd/**/PRD.md`
+  - EPIC (scope only): `.claude/epic/**/EPIC.md`
+- Write Scope:
+  - PRD: Problem/Goals, Personas, Stories, Acceptance Criteria, MoSCoW
+  - EPIC: Scope paragraph only; do not modify Decomposition
+- Templates: `.claude/templates/PRD.md`, `.claude/templates/EPIC.md`
+- Guards: keep single file ≤500 lines; split details to `DECISIONS.md` or sub-docs when needed.
