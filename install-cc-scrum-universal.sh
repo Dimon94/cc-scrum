@@ -627,6 +627,9 @@ EOF
 create_universal_template_generator() {
     print_step "Creating universal template generator..."
 
+    # Create scripts directory if it doesn't exist
+    mkdir -p "$TARGET_DIR/.claude/scripts"
+
     cat > "$TARGET_DIR/.claude/scripts/template-generator.sh" << 'EOF'
 #!/bin/bash
 
@@ -878,8 +881,9 @@ setup_scripts() {
             find "$TARGET_DIR/.claude/hooks/" -name "*.sh" -exec chmod +x {} \; 2>/dev/null || true
             ;;
         *)
-            chmod +x "$TARGET_DIR/.claude/scripts/"*.sh
-            chmod +x "$TARGET_DIR/.claude/hooks/"*.sh
+            # Use find to safely handle missing files
+            find "$TARGET_DIR/.claude/scripts/" -name "*.sh" -exec chmod +x {} \; 2>/dev/null || true
+            find "$TARGET_DIR/.claude/hooks/" -name "*.sh" -exec chmod +x {} \; 2>/dev/null || true
             ;;
     esac
 
