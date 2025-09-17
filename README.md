@@ -26,7 +26,7 @@ CC-Scrum is a comprehensive intelligent development framework that integrates Sc
 Works on **macOS**, **Linux**, and **Windows** (WSL/Git Bash):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/your-repo/cc-scrum/main/install-cc-scrum-universal.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Dimon94/cc-scrum/main/install-cc-scrum-universal.sh | bash
 ```
 
 Or download and run locally:
@@ -94,24 +94,37 @@ The universal installer will:
 ```
 cc-scrum/
 ├── .claude/
-│   ├── agents/              # 子代理配置 (Markdown + YAML)
-│   │   ├── po.md           # Product Owner 代理
-│   │   ├── sm.md           # Scrum Master 代理
-│   │   ├── dev.md          # Developer 代理
-│   │   ├── qa.md           # QA 代理
-│   │   └── sec.md          # Security 代理
-│   ├── slash_commands/      # 自定义斜杠命令
-│   │   ├── review.md       # 综合代码评审
-│   │   ├── standup.md      # 每日站会报告
-│   │   └── meta-todo.md    # 智能任务分解
-│   ├── hooks/              # 钩子脚本
-│   └── settings.json       # 全局配置
-├── docs/                   # 项目文档
-├── BACKLOG.md             # 产品待办列表
-├── SPRINT.md              # 当前 Sprint 状态
-├── DOD.md                 # 完成定义
-├── CLAUDE.md              # AI 记忆与模式
-└── README.md              # 项目说明
+│   ├── agents/              # 6 specialized AI agents
+│   │   ├── po.md           # Product Owner agent
+│   │   ├── sm.md           # Scrum Master agent
+│   │   ├── arch.md         # Solution Architect agent
+│   │   ├── dev.md          # Developer agent
+│   │   ├── qa.md           # Quality Assurance agent
+│   │   └── sec.md          # Security Specialist agent
+│   ├── commands/           # Custom slash commands
+│   │   ├── review.md       # Code review command
+│   │   ├── standup.md      # Daily standup command
+│   │   ├── meta-todo.md    # Intelligent task breakdown
+│   │   └── agents-status.md # Agent status command
+│   ├── hooks/              # Intelligent hooks system
+│   │   ├── pre_tool_use.sh     # Pre-execution validation
+│   │   ├── post_tool_use.sh    # Post-execution analysis
+│   │   └── user_prompt_submit.sh # Smart routing
+│   ├── scripts/            # Automation scripts
+│   │   ├── quality-gate-check-universal.sh
+│   │   ├── background-monitor.sh
+│   │   └── template-generator.sh
+│   ├── templates/          # Dynamic documentation templates
+│   │   ├── backlog.template
+│   │   ├── dod.template
+│   │   └── sprint.template
+│   └── settings.json       # Framework configuration
+├── install-cc-scrum-universal.sh # Universal installer
+├── CLAUDE.md               # AI development patterns
+├── PROJECT_OVERVIEW.md     # Technical architecture
+├── GETTING_STARTED.md      # Quick start guide
+├── CROSS_PLATFORM_COMPATIBILITY_REPORT.md
+└── README.md               # Project documentation
 ```
 
 ## 🤖 Agent Capabilities
