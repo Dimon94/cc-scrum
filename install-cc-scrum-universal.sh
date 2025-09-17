@@ -873,19 +873,16 @@ generate_docs() {
 setup_scripts() {
     print_step "Setting up project-specific scripts..."
 
-    # Make scripts executable (with platform-specific handling)
-    case "$PLATFORM" in
-        "Windows"|"WSL")
-            # Windows may not handle chmod correctly in all environments
-            find "$TARGET_DIR/.claude/scripts/" -name "*.sh" -exec chmod +x {} \; 2>/dev/null || true
-            find "$TARGET_DIR/.claude/hooks/" -name "*.sh" -exec chmod +x {} \; 2>/dev/null || true
-            ;;
-        *)
-            # Use find to safely handle missing files
-            find "$TARGET_DIR/.claude/scripts/" -name "*.sh" -exec chmod +x {} \; 2>/dev/null || true
-            find "$TARGET_DIR/.claude/hooks/" -name "*.sh" -exec chmod +x {} \; 2>/dev/null || true
-            ;;
-    esac
+    # Make specific scripts executable (avoid wildcard issues)
+    local template_script="$TARGET_DIR/.claude/scripts/template-generator.sh"
+    if [[ -f "$template_script" ]]; then
+        chmod +x "$template_script"
+    fi
+
+    # Make hook scripts executable if they exist
+    if [[ -d "$TARGET_DIR/.claude/hooks" ]]; then
+        find "$TARGET_DIR/.claude/hooks/" -name "*.sh" -exec chmod +x {} \; 2>/dev/null || true
+    fi
 
     print_success "Scripts configured for $PROJECT_TYPE project on $PLATFORM"
 }
