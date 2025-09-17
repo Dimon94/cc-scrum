@@ -127,6 +127,29 @@ cc-scrum/
 └── README.md               # Project documentation
 ```
 
+## 🗂️ Local-first Docs & Sprint Navigation
+
+- **Local-first documentation**: Operates fully offline without GitHub Issues.
+- **Manifest**: `.claude/context/manifest.yml` defines doc paths, naming, and the default navigation entry.
+- **Templates** in `.claude/templates/`:
+  - `PRD.md`, `EPIC.md`, `TASK.md`, `SPRINT.md`, `SPRINT_BACKLOG.md`, `SPRINT_BOARD.md`
+- **Directory conventions**:
+  - PRD: `.claude/prd/<prd-key>/PRD.md`
+  - EPIC: `.claude/epic/<epic-key>/EPIC.md`
+  - TASK: under the EPIC folder as `001/002/.../TASK.md`
+  - SPRINT: `.claude/sprint/<sprint-id>/`
+- **Sprint as navigation index**:
+  - `SPRINT.md` links to `SPRINT_BACKLOG.md` (selected EPIC/TASK) and `SPRINT_BOARD.md` (status-grouped task view).
+- **Constraints**: ≤500 lines per file; split overflow into `NOTES.md`/child docs; use relative links.
+
+### Minimal Local-only Flow
+1) Copy `PRD.md` → `.claude/prd/<key>/PRD.md`
+2) Copy `EPIC.md` → `.claude/epic/<key>/EPIC.md` and link to its PRD
+3) Create tasks under the EPIC: `001/002/.../TASK.md` from the template
+4) Create Sprint: in `.claude/sprint/<sprint-id>/` use `SPRINT.md`, `SPRINT_BACKLOG.md`, `SPRINT_BOARD.md`
+5) Role responsibilities: @po (requirements/AC), @arch (constraints/interfaces), @dev (design/interfaces), @qa (test plan), @sm (metrics/log)
+
+
 ## 🤖 Agent Capabilities
 
 ### @po (Product Owner)

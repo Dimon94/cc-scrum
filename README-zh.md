@@ -127,6 +127,29 @@ cc-scrum/
 └── README.md               # 项目文档
 ```
 
+## 🗂️ 本地文档与冲刺导航（Local-first）
+
+- **Local-first 文档体系**：不依赖远程 Issues，所有规划与执行文档均在本地维护。
+- **清单文件**：`.claude/context/manifest.yml` 定义文档路径、命名规范与导航入口。
+- **模板位置**：`.claude/templates/` 提供可复制的模板：
+  - `PRD.md`、`EPIC.md`、`TASK.md`、`SPRINT.md`、`SPRINT_BACKLOG.md`、`SPRINT_BOARD.md`
+- **目录建议**：
+  - PRD：`.claude/prd/<prd-key>/PRD.md`
+  - EPIC：`.claude/epic/<epic-key>/EPIC.md`
+  - TASK：在对应 EPIC 目录下按 `001/002/.../TASK.md`
+  - SPRINT：`.claude/sprint/<sprint-id>/`
+- **Sprint 作为导航入口**：
+  - `SPRINT.md`（概览）链接 `SPRINT_BACKLOG.md`（选取的 EPIC/TASK 列表）与 `SPRINT_BOARD.md`（按状态聚合的任务视图）。
+- **文件约束**：单文件 ≤ 500 行；超出拆分到 `NOTES.md`/子文档；相对路径互链。
+
+### 最小使用流程（本地-only）
+1) 复制 `PRD.md` 模板到 `.claude/prd/<key>/PRD.md`
+2) 复制 `EPIC.md` 模板到 `.claude/epic/<key>/EPIC.md` 并链接对应 PRD
+3) 在 EPIC 下创建 `001/002/.../TASK.md`（来自 `TASK.md` 模板）
+4) 创建冲刺：在 `.claude/sprint/<sprint-id>/` 使用 `SPRINT.md`、`SPRINT_BACKLOG.md`、`SPRINT_BOARD.md`
+5) 分角色填充：@po（需求/AC）、@arch（约束/接口）、@dev（设计/接口）、@qa（测试计划）、@sm（指标/日志）
+
+
 ## 🤖 代理能力
 
 ### @po (产品负责人)
