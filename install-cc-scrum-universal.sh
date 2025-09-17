@@ -331,6 +331,7 @@ check_prerequisites() {
                 mkdir -p "$FRAMEWORK_DIR/agents"
                 mkdir -p "$FRAMEWORK_DIR/hooks"
                 mkdir -p "$FRAMEWORK_DIR/templates"
+                mkdir -p "$FRAMEWORK_DIR/context"
                 mkdir -p "$FRAMEWORK_DIR/commands"
                 mkdir -p "$FRAMEWORK_DIR/scripts"
 
@@ -361,10 +362,21 @@ check_prerequisites() {
                 curl -fsSL "$GITHUB_RAW_URL/.claude/scripts/quality-gate-check.sh" -o "$FRAMEWORK_DIR/scripts/quality-gate-check.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/scripts/quality-gate-check.sh"
                 curl -fsSL "$GITHUB_RAW_URL/.claude/scripts/quality-gate-check-universal.sh" -o "$FRAMEWORK_DIR/scripts/quality-gate-check-universal.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/scripts/quality-gate-check-universal.sh"
 
-                # Download template files
+                # Download template files (legacy generator templates)
                 curl -fsSL "$GITHUB_RAW_URL/.claude/templates/backlog.template" -o "$FRAMEWORK_DIR/templates/backlog.template" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/backlog.template"
                 curl -fsSL "$GITHUB_RAW_URL/.claude/templates/dod.template" -o "$FRAMEWORK_DIR/templates/dod.template" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/dod.template"
                 curl -fsSL "$GITHUB_RAW_URL/.claude/templates/sprint.template" -o "$FRAMEWORK_DIR/templates/sprint.template" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/sprint.template"
+
+                # Download Local-first markdown templates
+                curl -fsSL "$GITHUB_RAW_URL/.claude/templates/PRD.md" -o "$FRAMEWORK_DIR/templates/PRD.md" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/PRD.md"
+                curl -fsSL "$GITHUB_RAW_URL/.claude/templates/EPIC.md" -o "$FRAMEWORK_DIR/templates/EPIC.md" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/EPIC.md"
+                curl -fsSL "$GITHUB_RAW_URL/.claude/templates/TASK.md" -o "$FRAMEWORK_DIR/templates/TASK.md" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/TASK.md"
+                curl -fsSL "$GITHUB_RAW_URL/.claude/templates/SPRINT.md" -o "$FRAMEWORK_DIR/templates/SPRINT.md" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/SPRINT.md"
+                curl -fsSL "$GITHUB_RAW_URL/.claude/templates/SPRINT_BACKLOG.md" -o "$FRAMEWORK_DIR/templates/SPRINT_BACKLOG.md" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/SPRINT_BACKLOG.md"
+                curl -fsSL "$GITHUB_RAW_URL/.claude/templates/SPRINT_BOARD.md" -o "$FRAMEWORK_DIR/templates/SPRINT_BOARD.md" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/SPRINT_BOARD.md"
+
+                # Download Local-first manifest
+                curl -fsSL "$GITHUB_RAW_URL/.claude/context/manifest.yml" -o "$FRAMEWORK_DIR/context/manifest.yml" 2>/dev/null || echo "version: 1" > "$FRAMEWORK_DIR/context/manifest.yml"
             elif command -v wget >/dev/null 2>&1; then
                 print_info "Downloading framework files using wget..."
 
@@ -372,6 +384,7 @@ check_prerequisites() {
                 mkdir -p "$FRAMEWORK_DIR/agents"
                 mkdir -p "$FRAMEWORK_DIR/hooks"
                 mkdir -p "$FRAMEWORK_DIR/templates"
+                mkdir -p "$FRAMEWORK_DIR/context"
                 mkdir -p "$FRAMEWORK_DIR/commands"
                 mkdir -p "$FRAMEWORK_DIR/scripts"
 
@@ -402,13 +415,25 @@ check_prerequisites() {
                 wget -q "$GITHUB_RAW_URL/.claude/scripts/quality-gate-check.sh" -O "$FRAMEWORK_DIR/scripts/quality-gate-check.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/scripts/quality-gate-check.sh"
                 wget -q "$GITHUB_RAW_URL/.claude/scripts/quality-gate-check-universal.sh" -O "$FRAMEWORK_DIR/scripts/quality-gate-check-universal.sh" 2>/dev/null || touch "$FRAMEWORK_DIR/scripts/quality-gate-check-universal.sh"
 
-                # Download template files
+                # Download template files (legacy generator templates)
                 wget -q "$GITHUB_RAW_URL/.claude/templates/backlog.template" -O "$FRAMEWORK_DIR/templates/backlog.template" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/backlog.template"
                 wget -q "$GITHUB_RAW_URL/.claude/templates/dod.template" -O "$FRAMEWORK_DIR/templates/dod.template" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/dod.template"
                 wget -q "$GITHUB_RAW_URL/.claude/templates/sprint.template" -O "$FRAMEWORK_DIR/templates/sprint.template" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/sprint.template"
+
+                # Download Local-first markdown templates
+                wget -q "$GITHUB_RAW_URL/.claude/templates/PRD.md" -O "$FRAMEWORK_DIR/templates/PRD.md" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/PRD.md"
+                wget -q "$GITHUB_RAW_URL/.claude/templates/EPIC.md" -O "$FRAMEWORK_DIR/templates/EPIC.md" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/EPIC.md"
+                wget -q "$GITHUB_RAW_URL/.claude/templates/TASK.md" -O "$FRAMEWORK_DIR/templates/TASK.md" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/TASK.md"
+                wget -q "$GITHUB_RAW_URL/.claude/templates/SPRINT.md" -O "$FRAMEWORK_DIR/templates/SPRINT.md" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/SPRINT.md"
+                wget -q "$GITHUB_RAW_URL/.claude/templates/SPRINT_BACKLOG.md" -O "$FRAMEWORK_DIR/templates/SPRINT_BACKLOG.md" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/SPRINT_BACKLOG.md"
+                wget -q "$GITHUB_RAW_URL/.claude/templates/SPRINT_BOARD.md" -O "$FRAMEWORK_DIR/templates/SPRINT_BOARD.md" 2>/dev/null || touch "$FRAMEWORK_DIR/templates/SPRINT_BOARD.md"
+
+                # Download Local-first manifest
+                wget -q "$GITHUB_RAW_URL/.claude/context/manifest.yml" -O "$FRAMEWORK_DIR/context/manifest.yml" 2>/dev/null || echo "version: 1" > "$FRAMEWORK_DIR/context/manifest.yml"
             else
                 print_warning "curl or wget not found - creating minimal framework structure"
                 mkdir -p "$FRAMEWORK_DIR/templates"
+                mkdir -p "$FRAMEWORK_DIR/context"
                 mkdir -p "$FRAMEWORK_DIR/agents"
                 mkdir -p "$FRAMEWORK_DIR/hooks"
                 mkdir -p "$FRAMEWORK_DIR/commands"
@@ -445,6 +470,15 @@ check_prerequisites() {
                 touch "$FRAMEWORK_DIR/templates/backlog.template"
                 touch "$FRAMEWORK_DIR/templates/dod.template"
                 touch "$FRAMEWORK_DIR/templates/sprint.template"
+                # Create minimal Local-first templates
+                touch "$FRAMEWORK_DIR/templates/PRD.md"
+                touch "$FRAMEWORK_DIR/templates/EPIC.md"
+                touch "$FRAMEWORK_DIR/templates/TASK.md"
+                touch "$FRAMEWORK_DIR/templates/SPRINT.md"
+                touch "$FRAMEWORK_DIR/templates/SPRINT_BACKLOG.md"
+                touch "$FRAMEWORK_DIR/templates/SPRINT_BOARD.md"
+                # Minimal manifest
+                echo "version: 1" > "$FRAMEWORK_DIR/context/manifest.yml"
             fi
 
             print_success "Framework downloaded successfully"
